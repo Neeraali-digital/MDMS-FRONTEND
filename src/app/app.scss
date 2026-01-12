@@ -1,0 +1,41 @@
+main {
+    min-height: calc(100vh - var(--header-height) - 100px);
+    /* Approx footer height */
+}
+
+footer {
+    background: var(--primary-dark);
+    color: var(--white);
+    padding: 2rem 0;
+    margin-top: auto;
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: var(--text-light);
+        /* Make sure text-light contrasts or override */
+    }
+
+    /* Override text color for footer specifically if needed */
+    p {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .footer-links a {
+        margin-left: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+
+        &:hover {
+            color: var(--white);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

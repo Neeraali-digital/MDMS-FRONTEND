@@ -1,0 +1,122 @@
+<header>
+  <!-- Top Bar: Utilities & News -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+        <!-- Spacer or left content if needed, currently empty/helpline? -->
+        <div class="top-left-info">
+             <!-- Optional: Helpline or leave empty -->
+        </div>
+
+        <!-- Right Side: Sub Tabs -->
+        <div class="top-right-nav">
+            <a routerLink="/blog" routerLinkActive="active">BLOG</a>
+            <span class="sep">|</span>
+            <a routerLink="/vlog" routerLinkActive="active">VLOG</a>
+            <span class="sep">|</span>
+            <a routerLink="/faq" routerLinkActive="active">FAQ</a>
+            <span class="sep">|</span>
+            
+            <div class="dropdown-trigger simple-dropdown">
+                <span>NEWS <i class="chevron-down"></i></span>
+                <div class="mega-menu">
+                    <a routerLink="/news/mcc">MCC</a>
+                    <a routerLink="/news/nmc">NMC</a>
+                    <a routerLink="/news/neet">NEET</a>
+                    <a routerLink="/news/rguhs">RGUHS</a>
+                    <a routerLink="/news/kea">KEA</a>
+                    <a routerLink="/news/dci">DCI</a>
+                    <a routerLink="/news/ayush">AYUSH</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <div class="main-bar">
+    <div class="container main-bar-inner">
+      <!-- Logo -->
+      <a routerLink="/" class="logo-link">
+        <img src="assets/logo.png" alt="MDMS Admission Logo" class="brand-logo">
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="desktop-nav">
+        <ul class="nav-items">
+          <!-- Group 1: PG/MBBS -->
+          <li><a routerLink="/course/md-ms" routerLinkActive="active">MD/MS</a></li>
+          <li><a routerLink="/course/dm-mch" routerLinkActive="active">DM/MCh</a></li>
+          <li><a routerLink="/course/mds" routerLinkActive="active">MDS</a></li>
+          <li><a routerLink="/course/mbbs" routerLinkActive="active">MBBS</a></li>
+          
+          <li class="sep">|</li>
+
+          <!-- Group 2: Colleges & UG -->
+          <li class="dropdown-trigger">
+            <span [routerLink]="['/colleges']" routerLinkActive="active" style="cursor: pointer;">COLLEGES <i class="chevron-down"></i></span>
+            <div class="mega-menu">
+                <a routerLink="/colleges" [queryParams]="{type: 'medical'}">MEDICAL</a>
+                <a routerLink="/colleges" [queryParams]="{type: 'dental'}">DENTAL</a>
+                <a routerLink="/colleges" [queryParams]="{type: 'ayurveda'}">AYURVEDA</a>
+                <a routerLink="/colleges" [queryParams]="{type: 'homeo'}">HOMEO</a>
+                <a routerLink="/colleges" [queryParams]="{type: 'naturopathy'}">NATUROPATHY</a>
+            </div>
+          </li>
+          
+          <li><a routerLink="/course/bds" routerLinkActive="active">BDS</a></li>
+          <li><a routerLink="/course/bams" routerLinkActive="active">BAMS</a></li>
+          <li><a routerLink="/course/bhms" routerLinkActive="active">BHMS</a></li>
+          <li><a routerLink="/course/bnys" routerLinkActive="active">BNYS</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile Toggle -->
+      <button class="menu-toggle" (click)="toggleMobileMenu()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu" [class.open]="isMobileMenuOpen">
+    <div class="mobile-menu-header">
+       <img src="assets/logo.png" alt="Logo">
+       <button class="close-btn" (click)="toggleMobileMenu()">&times;</button>
+    </div>
+    <div class="mobile-links">
+        <!-- Sub Tabs -->
+        <a routerLink="/blog" (click)="toggleMobileMenu()">BLOG</a>
+        <a routerLink="/vlog" (click)="toggleMobileMenu()">VLOG</a>
+        <a routerLink="/faq" (click)="toggleMobileMenu()">FAQ</a>
+        
+        <div class="mobile-divider"></div>
+        <span class="mobile-label">COURSES</span>
+        <a routerLink="/course/md-ms" (click)="toggleMobileMenu()">MD/MS</a>
+        <a routerLink="/course/dm-mch" (click)="toggleMobileMenu()">DM/MCh</a>
+        <a routerLink="/course/mds" (click)="toggleMobileMenu()">MDS</a>
+        <a routerLink="/course/mbbs" (click)="toggleMobileMenu()">MBBS</a>
+
+        <div class="mobile-divider"></div>
+        <span class="mobile-label">UG COURSES</span>
+        <a routerLink="/course/bds" (click)="toggleMobileMenu()">BDS</a>
+        <a routerLink="/course/bams" (click)="toggleMobileMenu()">BAMS</a>
+        <a routerLink="/course/bhms" (click)="toggleMobileMenu()">BHMS</a>
+        <a routerLink="/course/bnys" (click)="toggleMobileMenu()">BNYS</a>
+
+        <div class="mobile-divider"></div>
+        <a routerLink="/colleges" (click)="toggleMobileMenu()">COLLEGES</a>
+
+        <div class="mobile-divider"></div>
+        <span class="mobile-label">NEWS</span>
+        <a routerLink="/news/mcc" (click)="toggleMobileMenu()">MCC</a>
+        <a routerLink="/news/nmc" (click)="toggleMobileMenu()">NMC</a>
+        <a routerLink="/news/neet" (click)="toggleMobileMenu()">NEET</a>
+        <a routerLink="/news/rguhs" (click)="toggleMobileMenu()">RGUHS</a>
+        <a routerLink="/news/kea" (click)="toggleMobileMenu()">KEA</a>
+        <a routerLink="/news/dci" (click)="toggleMobileMenu()">DCI</a>
+        <a routerLink="/news/ayush" (click)="toggleMobileMenu()">AYUSH</a>
+    </div>
+  </div>
+</header>

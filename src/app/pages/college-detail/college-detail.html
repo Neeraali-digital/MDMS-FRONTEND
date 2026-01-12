@@ -1,0 +1,137 @@
+<div class="page-container" *ngIf="college">
+    <!-- Hero Section -->
+    <div class="college-hero" [style.background-image]="'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url(' + (college.heroImage || college.image) + ')'">
+        <div class="container hero-content">
+            <h1 class="college-title">{{ college.name }}</h1>
+            <p class="location"><i class="icon-map-pin"></i> {{ college.location }}</p>
+            <div class="hero-actions">
+                <button class="btn btn-primary">Apply Now</button>
+                <button class="btn btn-outline">Download Brochure</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-nav-container">
+        <div class="container">
+            <ul class="tabs-nav">
+                <li [class.active]="activeTab === 'overview'" (click)="setActiveTab('overview')">Overview</li>
+                <li [class.active]="activeTab === 'courses'" (click)="setActiveTab('courses')">Courses & Fees</li>
+                <li [class.active]="activeTab === 'placements'" (click)="setActiveTab('placements')">Placements</li>
+                <li [class.active]="activeTab === 'gallery'" (click)="setActiveTab('gallery')">Gallery</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container content-grid">
+        <!-- Main Content -->
+        <main class="main-details">
+            
+            <!-- OVERVIEW TAB -->
+            <div class="tab-content" *ngIf="activeTab === 'overview'">
+                <section class="section-card">
+                    <h2>About the Institute</h2>
+                    <p>{{ college.about }}</p>
+                </section>
+
+                <section class="section-card">
+                    <h2>Key Highlights</h2>
+                    <div class="highlights-grid">
+                        <div class="highlight-item" *ngFor="let item of college.highlights">
+                            <span class="check-icon">✓</span> {{ item }}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card stats-row">
+                    <div class="stat-box">
+                        <h3>100%</h3>
+                        <p>Placement</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>50+</h3>
+                        <p>Years Legacy</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>150+</h3>
+                        <p>Faculty</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- COURSES TAB -->
+            <div class="tab-content" *ngIf="activeTab === 'courses'">
+                <section class="section-card">
+                    <h2>Courses Offered</h2>
+                    <table class="courses-table">
+                        <thead>
+                            <tr>
+                                <th>Course</th>
+                                <th>Duration</th>
+                                <th>Seats</th>
+                                <th>Fees</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let course of college.courses">
+                                <td>{{ course.name }}</td>
+                                <td>{{ course.duration }}</td>
+                                <td>{{ course.seats || 'N/A' }}</td>
+                                <td>{{ course.fees || 'N/A' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+
+            <!-- PLACEMENTS TAB -->
+             <div class="tab-content" *ngIf="activeTab === 'placements'">
+                <section class="section-card alignment-center">
+                    <h2>Placement Statistics</h2>
+                    <div class="placeholder-chart">
+                        <div class="bar" style="height: 60%"><span>2021</span></div>
+                        <div class="bar" style="height: 75%"><span>2022</span></div>
+                        <div class="bar" style="height: 90%"><span>2023</span></div>
+                    </div>
+                    <p class="chart-caption">Average Package Growth</p>
+                </section>
+            </div>
+
+             <!-- GALLERY TAB -->
+             <div class="tab-content" *ngIf="activeTab === 'gallery'">
+                <section class="section-card">
+                    <h2>Campus Gallery</h2>
+                    <div class="gallery-grid">
+                         <div class="gallery-item" *ngFor="let i of [1,2,3,4]">
+                            <img [src]="'https://source.unsplash.com/random/300x200?campus,medical,' + i" alt="Campus">
+                         </div>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="enquiry-card sticky">
+                <h3>Get Admission Details</h3>
+                <p>Fill the form to get free counselling.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Full Name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Phone Mumber" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email Address" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Message / Course Interest" class="form-control" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width">Connect with Expert</button>
+                </form>
+            </div>
+        </aside>
+    </div>
+</div>

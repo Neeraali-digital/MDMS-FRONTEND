@@ -1,0 +1,71 @@
+<div class="colleges-container">
+    <section class="colleges-hero" [style.background-image]="'linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url(' + heroBg + ')'">
+        <div class="container hero-content">
+            <h1 class="page-title">{{ heroTitle }}</h1>
+            <p class="page-subtitle">Explore the best institutions to kickstart your medical career.</p>
+            
+            <div class="search-box-wrapper">
+                <div class="search-input-group">
+                    <i class="icon-search"></i>
+                    <input type="text" 
+                           placeholder="Search by college name or location..." 
+                           (input)="onSearch($event)"
+                           class="search-input">
+                    <button class="search-btn">Search</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container colleges-layout">
+        <!-- Sidebar Filters -->
+        <aside class="filters-sidebar">
+            <div class="filter-group">
+                <h3>Filter By Location</h3>
+                <label><input type="checkbox"> Bangalore</label>
+                <label><input type="checkbox"> Mangalore</label>
+                <label><input type="checkbox"> Mysore</label>
+                <label><input type="checkbox"> Bellur</label>
+                <label><input type="checkbox"> Belgaum</label>
+            </div>
+            
+            <div class="filter-group">
+                <h3>Course Type</h3>
+                <label><input type="checkbox"> MBBS</label>
+                <label><input type="checkbox"> MD/MS</label>
+                <label><input type="checkbox"> MDS</label>
+            </div>
+
+            <div class="filter-group">
+                 <h3>Ownership</h3>
+                 <label><input type="checkbox"> Private</label>
+                 <label><input type="checkbox"> Government</label>
+                 <label><input type="checkbox"> Deemed</label>
+            </div>
+        </aside>
+
+        <!-- Main Grid -->
+        <div class="college-grid">
+            <div class="college-card" *ngFor="let college of filteredColleges" (click)="viewCollege(college.slug)">
+                <div class="card-image">
+                    <img [src]="college.image" [alt]="college.name" [title]="college.name">
+                    <span class="badge" *ngIf="college.featured">Featured</span>
+                </div>
+                <div class="card-content">
+                    <h2 class="college-name">{{ college.name }}</h2>
+                    <div class="college-meta">
+                        <span class="location"><i class="icon-map-pin"></i> {{ college.location }}</span>
+                        <span class="type">{{ college.type }}</span>
+                    </div>
+                    <p class="description">{{ college.description }}</p>
+                    <div class="card-footer">
+                        <div class="courses-tag">
+                            <span>{{ college.courses.length }} Courses</span>
+                        </div>
+                        <button class="view-btn">View Details &rarr;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

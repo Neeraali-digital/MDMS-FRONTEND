@@ -1,0 +1,277 @@
+.page-container {
+    padding-bottom: 4rem;
+    background: #f8fafc;
+}
+
+.college-hero {
+    height: 450px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: white;
+
+    .hero-content {
+        .college-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            color:white
+        }
+
+        .location {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+        }
+    }
+}
+
+.tabs-nav-container {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    .tabs-nav {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            padding: 1.2rem 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+
+            &:hover {
+                color: var(--blue-600);
+            }
+
+            &.active {
+                color: var(--blue-700);
+                border-bottom-color: var(--blue-700);
+                background: rgba(var(--blue-rgb), 0.05);
+            }
+        }
+    }
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.section-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2.5rem;
+
+    h2 {
+        color: var(--blue-900);
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+
+    p {
+        line-height: 1.8;
+        color: var(--text-main);
+    }
+}
+
+.highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+
+    .highlight-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        background: #f1f5f9;
+        padding: 1rem;
+        border-radius: 10px;
+        font-weight: 500;
+
+        .check-icon {
+            color: #10b981;
+            font-weight: bold;
+        }
+    }
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+
+    .stat-box {
+        h3 {
+            font-size: 2.5rem;
+            color: var(--blue-700);
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+    }
+}
+
+.courses-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+        text-align: left;
+        padding: 1rem;
+        background: #f8fafc;
+        color: var(--blue-900);
+        border-bottom: 2px solid var(--border);
+    }
+
+    td {
+        padding: 1.2rem 1rem;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-main);
+    }
+}
+
+.placeholder-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 2rem;
+    height: 200px;
+    padding: 2rem;
+    justify-content: center;
+
+    .bar {
+        width: 60px;
+        background: linear-gradient(to top, var(--blue-700), var(--blue-500));
+        border-radius: 5px 5px 0 0;
+        position: relative;
+        transition: height 0.3s;
+
+        span {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+
+    .gallery-item {
+        border-radius: 12px;
+        overflow: hidden;
+        height: 200px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+}
+
+/* Sidebar Enquiry Card */
+.enquiry-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--blue-100);
+
+    h3 {
+        color: var(--blue-900);
+        margin-bottom: 0.5rem;
+        font-size: 1.4rem;
+    }
+
+    p {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.2rem;
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+
+            &:focus {
+                outline: none;
+                border-color: var(--blue-500);
+                box-shadow: 0 0 0 3px rgba(var(--blue-rgb), 0.1);
+            }
+        }
+    }
+
+    .full-width {
+        width: 100%;
+    }
+}
+
+.sticky {
+    position: sticky;
+    top: 100px;
+}
+
+@media (max-width: 1024px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .college-hero .college-title {
+        font-size: 2.2rem;
+    }
+}

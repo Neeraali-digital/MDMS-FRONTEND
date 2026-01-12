@@ -1,0 +1,38 @@
+<div class="page-container">
+    <div class="page-header">
+        <div class="container">
+            <h1>Vlogs & Insights</h1>
+            <p>Watch expert talks, college tours, and student experiences.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Featured Video -->
+        <article class="featured-vlog card">
+            <div class="vlog-preview">
+                <img src="https://images.unsplash.com/photo-1576091727394-13783203407b?auto=format&fit=crop&q=80&w=1200" alt="Featured">
+                <button class="play-btn-large">▶</button>
+            </div>
+            <div class="vlog-details">
+                <span class="tag">FEATURED</span>
+                <h2>Complete NEET PG 2024 Counselling Guide</h2>
+                <p>Everything you need to know about round 1 registrations, documents, and seat allotment process.</p>
+                <button class="btn btn-primary">Watch Now</button>
+            </div>
+        </article>
+    </div>
+
+    <div class="container vlog-grid">
+        <article class="video-card" *ngFor="let video of videos">
+             <div class="video-thumbnail">
+                <img [src]="video.thumbnail" alt="Video thumbnail">
+                <div class="play-icon">▶</div>
+                <span class="duration">{{ video.duration }}</span>
+            </div>
+            <div class="video-info">
+                <h3>{{ video.title }}</h3>
+                <span class="views">{{ video.views }} views • {{ video.date }}</span>
+            </div>
+        </article>
+    </div>
+</div>

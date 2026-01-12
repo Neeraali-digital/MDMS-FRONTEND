@@ -1,0 +1,127 @@
+/* Global Styles & Theming */
+:root {
+    /* Brand Colors - Blue Palette Shading */
+    --blue-100: #d0e1f0;
+    --blue-200: #a9cce3;
+    --blue-300: #7fb3d5;
+    --blue-400: #5499c7;
+    --blue-500: #2980b9;
+    /* Primary Standard */
+    --blue-600: #2471a3;
+    --blue-700: #1f618d;
+    /* Primary Strong */
+    --blue-800: #1a5276;
+    --blue-900: #154360;
+    /* Primary Dark */
+
+    --primary-main: var(--blue-600);
+    --primary-dark: var(--blue-900);
+    --primary-light: var(--blue-400);
+    --accent: var(--blue-300);
+
+    /* Neutrals */
+    --white: #ffffff;
+    --surface: #f8fbff;
+    --text-main: #102a43;
+    --text-light: #486581;
+    --border: #bcccdc;
+
+    /* Spacing */
+    --container-width: 1280px;
+    --header-main-height: 70px;
+    --header-top-height: 40px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    /* Modern font choice */
+    background-color: var(--surface);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Utilities */
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+
+    &.btn-primary {
+        background: linear-gradient(135deg, var(--blue-600), var(--blue-500));
+        color: var(--white);
+
+        &:hover {
+            background: linear-gradient(135deg, var(--blue-700), var(--blue-600));
+            box-shadow: 0 4px 12px rgba(36, 113, 163, 0.25);
+        }
+    }
+
+    &.btn-outline {
+        border: 1.5px solid var(--blue-500);
+        color: var(--blue-600);
+        background: transparent;
+
+        &:hover {
+            background: var(--blue-50);
+            border-color: var(--blue-600);
+        }
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--blue-900);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--blue-200);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--blue-400);
+}
