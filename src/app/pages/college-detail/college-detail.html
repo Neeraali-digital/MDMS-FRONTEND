@@ -106,7 +106,7 @@
                     <h2>Campus Gallery</h2>
                     <div class="gallery-grid" *ngIf="college.gallery && college.gallery.length > 0">
                          <div class="gallery-item" *ngFor="let img of college.gallery">
-                            <img [src]="getImageUrl(img)" alt="Campus">
+            <img [src]="getImageUrl(img)" alt="Campus" (error)="handleImageError($event)">
                          </div>
                     </div>
                     <div class="gallery-grid" *ngIf="!college.gallery || college.gallery.length === 0">

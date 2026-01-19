@@ -95,4 +95,7 @@ export class CollegeDetailComponent implements OnInit {
       }
     });
   }
+  handleImageError(event: any) {
+    event.target.src = 'https://placehold.co/600x400?text=College+Image';
+  }
 }

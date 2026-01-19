@@ -18,9 +18,15 @@ export class ApiService {
     constructor(private http: HttpClient) { }
 
     getMediaUrl(path: string): string {
-        if (!path) return 'assets/placeholder-college.jpg';
+        if (!path) return 'https://placehold.co/600x400?text=No+Image';
         if (path.startsWith('http')) return path;
-        return `${this.baseApiUrl}${path}`;
+
+        // Ensure path is encoded (handles spaces in filenames)
+        const encodedPath = path.split('/').map(segment => encodeURIComponent(segment)).join('/');
+        const fullUrl = `${this.baseApiUrl}${encodedPath.startsWith('/') ? '' : '/'}${encodedPath}`;
+
+        console.log('Final Media URL:', fullUrl);
+        return fullUrl;
     }
 
     private hasToken(): boolean {
