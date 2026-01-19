@@ -65,9 +65,7 @@ export class CollegeDetailComponent implements OnInit {
   }
 
   getImageUrl(url: string): string {
-    if (!url) return 'assets/placeholder-college.jpg';
-    if (url.startsWith('http')) return url;
-    return `http://127.0.0.1:8000${url}`;
+    return this.api.getMediaUrl(url);
   }
 
   submitEnquiry() {

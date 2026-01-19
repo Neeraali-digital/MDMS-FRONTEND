@@ -8,13 +8,20 @@ import { environment } from '../../environments/environment';
     providedIn: 'root'
 })
 export class ApiService {
-    private apiUrl = environment.apiUrl;
+    public apiUrl = environment.apiUrl;
+    private baseApiUrl = environment.apiUrl.replace('/api', ''); // Get base domain
     private tokenKey = 'auth_token';
     private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
 
     isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
     constructor(private http: HttpClient) { }
+
+    getMediaUrl(path: string): string {
+        if (!path) return 'assets/placeholder-college.jpg';
+        if (path.startsWith('http')) return path;
+        return `${this.baseApiUrl}${path}`;
+    }
 
     private hasToken(): boolean {
         return !!localStorage.getItem(this.tokenKey);

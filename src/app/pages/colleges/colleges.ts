@@ -102,10 +102,7 @@ export class Colleges implements OnInit {
   }
 
   getImageUrl(url: string): string {
-    if (!url) return 'assets/placeholder-college.jpg'; // Fallback
-    if (url.startsWith('http')) return url;
-    // Assuming backend runs on 8000. It's better to use environment config, simple fix for now
-    return `http://127.0.0.1:8000${url}`;
+    return this.api.getMediaUrl(url);
   }
 
   handleImageError(event: any) {
