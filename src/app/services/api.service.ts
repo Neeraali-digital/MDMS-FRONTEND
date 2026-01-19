@@ -9,9 +9,17 @@ import { environment } from '../../environments/environment';
 })
 export class ApiService {
     public apiUrl = environment.apiUrl;
-    private baseApiUrl = environment.apiUrl.replace('/api', ''); // Get base domain
+    private baseApiUrl = this.getBaseUrl();
     private tokenKey = 'auth_token';
     private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
+
+    private getBaseUrl(): string {
+        try {
+            return new URL(this.apiUrl).origin;
+        } catch (e) {
+            return '';
+        }
+    }
 
     isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
