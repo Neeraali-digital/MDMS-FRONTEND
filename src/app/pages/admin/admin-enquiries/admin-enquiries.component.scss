@@ -2,6 +2,63 @@
 
 @include shared.admin-layout;
 
+.search-container {
+    padding: 1.5rem 2rem;
+    background: white;
+    border-bottom: 1px solid #f1f5f9;
+
+    .search-box {
+        position: relative;
+        max-width: 500px;
+        display: flex;
+        align-items: center;
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 12px;
+            border: 1.5px solid #e2e8f0;
+            background: #f8fafc;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            outline: none;
+
+            &:focus {
+                background: white;
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            }
+        }
+
+        .clear-btn {
+            position: absolute;
+            right: 0.75rem;
+            background: #e2e8f0;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #475569;
+
+            &:hover {
+                background: #cbd5e1;
+            }
+        }
+    }
+}
+
 .student-info {
     display: flex;
     flex-direction: column;
@@ -24,4 +81,167 @@
     text-overflow: ellipsis;
     color: #64748b;
     font-size: 0.875rem;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-block;
+
+    &.quick {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+
+    &.admission {
+        background: #dcfce7;
+        color: #15803d;
+    }
+}
+
+// Modal Styles
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: modalIn 0.3s ease-out;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+
+    h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #64748b;
+    }
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.detail-item {
+    &.full-width {
+        grid-column: span 2;
+    }
+
+    label {
+        display: block;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #94a3b8;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+
+    p {
+        font-weight: 600;
+        color: #334155;
+        margin: 0;
+    }
+
+    .full-message {
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        color: #475569;
+        line-height: 1.6;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+}
+
+.modal-footer {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background: #f8fafc;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &.btn-secondary {
+        background: white;
+        border: 1px solid #e2e8f0;
+        color: #64748b;
+    }
+
+    &.btn-secondary:hover {
+        background: #f1f5f9;
+    }
+
+    &.btn-primary {
+        background: #3b82f6;
+        border: none;
+        color: white;
+    }
+
+    &.btn-primary:hover {
+        background: #2563eb;
+    }
 }

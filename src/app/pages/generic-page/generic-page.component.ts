@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../services/api.service';
 
 @Component({
     selector: 'app-generic-page',
     standalone: true,
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, RouterModule, FormsModule],
     template: `
     <div class="course-page-container" *ngIf="!isNewsPage">
         <div class="hero-section" [style.background-image]="'linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url(' + heroImage + ')'">
@@ -72,16 +74,24 @@ import { ActivatedRoute, RouterModule, Router } from '@angular/router';
                     <div class="cta-card-sidebar">
                         <h3>Quick Enquiry</h3>
                         <p>Get personalized admission guidance from our experts for {{ title }}.</p>
-                        <form>
+                        
+                        <div *ngIf="successMessage" class="success-toast">
+                            <i class="icon-check-circle"></i> {{ successMessage }}
+                        </div>
+
+                        <form (ngSubmit)="submitEnquiry()" #enquiryForm="ngForm" *ngIf="!successMessage">
                             <div class="form-group">
                                 <label class="form-label">Full Name</label>
-                                <input type="text" placeholder="e.g. John Doe" class="form-input">
+                                <input type="text" name="name" [(ngModel)]="enquiry.name" required #name="ngModel" placeholder="e.g. Your Name" class="form-input" [class.error]="name.invalid && (name.dirty || name.touched || submitted)">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Phone Number</label>
-                                <input type="tel" placeholder="+91 00000 00000" class="form-input">
+                                <input type="tel" name="phone" [(ngModel)]="enquiry.phone" required pattern="[0-9]{10}" #phone="ngModel" placeholder="10 Digit Phone Number" class="form-input" [class.error]="phone.invalid && (phone.dirty || phone.touched || submitted)">
                             </div>
-                            <button class="btn btn-primary full-width">Submit Now</button>
+                            <button type="submit" class="btn btn-primary full-width" [disabled]="submitting">
+                                <span *ngIf="!submitting">Submit Now</span>
+                                <span *ngIf="submitting" class="spinner-small"></span>
+                            </button>
                         </form>
                     </div>
 
@@ -297,6 +307,11 @@ import { ActivatedRoute, RouterModule, Router } from '@angular/router';
     
     .newsletter input { width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1rem; }
     
+    .form-input.error { border-color: #ef4444; background: #fef2f2; }
+    .success-toast { background: #ecfdf5; color: #065f46; padding: 1.5rem; border-radius: 12px; border: 1px solid #a7f3d0; text-align: center; font-weight: 600; margin-bottom: 1rem; }
+    .spinner-small { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     @media (max-width: 992px) {
         .content-grid-main, .news-content-layout { grid-template-columns: 1fr; }
         .hero-section { height: auto; padding: 5rem 1rem; }
@@ -317,6 +332,17 @@ export class GenericPageComponent implements OnInit {
     courseId: string = '';
     isNewsPage = false;
     newsList: any[] = [];
+
+    // Enquiry Form State
+    enquiry = {
+        name: '',
+        phone: '',
+        message: '',
+        enquiry_type: 'Quick Enquiry'
+    };
+    submitting = false;
+    submitted = false;
+    successMessage = '';
 
     courseData: any = {
         'md-ms': {
@@ -410,7 +436,12 @@ export class GenericPageComponent implements OnInit {
         }
     };
 
-    constructor(private route: ActivatedRoute, private router: Router) { }
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private api: ApiService,
+        private cdr: ChangeDetectorRef
+    ) { }
 
     ngOnInit() {
         this.route.paramMap.subscribe(params => {
@@ -420,6 +451,8 @@ export class GenericPageComponent implements OnInit {
             this.newsList = [];
             this.specializations = [];
             this.heroImage = 'https://images.unsplash.com/photo-1576089172869-4f5f19dad13f?auto=format&fit=crop&q=80&w=1200';
+            this.successMessage = '';
+            this.submitted = false;
 
             if (this.router.url.includes('news')) {
                 // News Logic
@@ -450,6 +483,33 @@ export class GenericPageComponent implements OnInit {
                 const name = id ? id.replace(/-/g, ' ').toUpperCase() : 'COURSE';
                 this.title = name;
                 this.subtitle = 'Admission Details';
+            }
+        });
+    }
+
+    submitEnquiry() {
+        this.submitted = true;
+        if (!this.enquiry.name || !this.enquiry.phone || this.enquiry.phone.length !== 10) {
+            return;
+        }
+
+        this.submitting = true;
+        const payload = {
+            ...this.enquiry,
+            message: `Interested in ${this.title}. ` + (this.enquiry.message || '')
+        };
+
+        this.api.createEnquiry(payload).subscribe({
+            next: () => {
+                this.submitting = false;
+                this.successMessage = 'Your enquiry has been submitted successfully! Our expert will contact you soon.';
+                this.cdr.detectChanges();
+            },
+            error: (err: any) => {
+                this.submitting = false;
+                console.error('Enquiry failed:', err);
+                alert('Something went wrong. Please try again later.');
+                this.cdr.detectChanges();
             }
         });
     }

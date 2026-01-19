@@ -7,11 +7,23 @@
   </div>
 
   <div class="table-card card">
+    <div class="search-container">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" 
+               [(ngModel)]="searchTerm" 
+               (input)="applySearch()" 
+               placeholder="Search entries...">
+        <button class="clear-btn" *ngIf="searchTerm" (click)="searchTerm=''; applySearch()">&times;</button>
+      </div>
+    </div>
+
     <div class="table-wrapper">
       <table class="modern-table">
         <thead>
           <tr>
             <th>Student Info</th>
+            <th>Type</th>
             <th>Contact</th>
             <th>Message</th>
             <th>College</th>
@@ -20,12 +32,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let eq of enquiries">
+          <tr *ngFor="let eq of filteredEnquiries">
             <td>
               <div class="student-info">
                 <span class="name">{{ eq.name }}</span>
                 <span class="email">{{ eq.email }}</span>
               </div>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="{'quick': eq.enquiry_type === 'Quick Enquiry', 'admission': eq.enquiry_type === 'Admission Enquiry'}">
+                {{ eq.enquiry_type }}
+              </span>
             </td>
             <td>{{ eq.phone }}</td>
             <td>
@@ -37,19 +54,69 @@
             <td>{{ eq.created_at | date:'mediumDate' }}</td>
             <td>
               <div class="action-buttons">
-                <button class="action-btn view">👁</button>
-                <button class="action-btn delete">🗑</button>
+                <button class="action-btn view" (click)="viewEnquiry(eq)" title="View Details">👁</button>
+                <button class="action-btn delete" title="Delete">🗑</button>
               </div>
             </td>
           </tr>
-          <tr *ngIf="!loading && enquiries.length === 0">
-            <td colspan="6" class="empty-row">No enquiries found.</td>
+          <tr *ngIf="!loading && filteredEnquiries.length === 0">
+            <td colspan="7" class="empty-row">No matching enquiries found.</td>
           </tr>
           <tr *ngIf="loading">
-            <td colspan="6" class="loading-row">Loading enquiries...</td>
+            <td colspan="7" class="loading-row">Loading enquiries...</td>
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- Detail View Modal -->
+  <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Enquiry Details</h2>
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      
+      <div class="modal-body" *ngIf="selectedEnquiry">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Student Name</label>
+            <p>{{ selectedEnquiry.name }}</p>
+          </div>
+          <div class="detail-item">
+            <label>Enquiry Type</label>
+            <span class="badge" [ngClass]="{'quick': selectedEnquiry.enquiry_type === 'Quick Enquiry', 'admission': selectedEnquiry.enquiry_type === 'Admission Enquiry'}">
+                {{ selectedEnquiry.enquiry_type }}
+              </span>
+          </div>
+          <div class="detail-item">
+            <label>Phone Number</label>
+            <p>{{ selectedEnquiry.phone }}</p>
+          </div>
+          <div class="detail-item">
+            <label>Email Address</label>
+            <p>{{ selectedEnquiry.email || 'Not Provided' }}</p>
+          </div>
+          <div class="detail-item full-width">
+            <label>College/Interest</label>
+            <p>{{ selectedEnquiry.college_name || 'General Inquiry' }}</p>
+          </div>
+          <div class="detail-item full-width">
+            <label>Message</label>
+            <div class="full-message">{{ selectedEnquiry.message }}</div>
+          </div>
+          <div class="detail-item">
+            <label>Submitted On</label>
+            <p>{{ selectedEnquiry.created_at | date:'medium' }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <a [href]="'tel:' + selectedEnquiry?.phone" class="btn btn-primary">Call Student</a>
+      </div>
     </div>
   </div>
 </div>

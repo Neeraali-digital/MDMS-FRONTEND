@@ -64,7 +64,7 @@ export class ApiService {
     }
 
     // Enquiries
-    submitEnquiry(data: any): Observable<any> {
+    createEnquiry(data: any): Observable<any> {
         return this.http.post(`${this.apiUrl}/enquiries/`, data);
     }
 

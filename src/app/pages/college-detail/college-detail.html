@@ -125,20 +125,29 @@
             <div class="enquiry-card sticky">
                 <h3>Get Admission Details</h3>
                 <p>Fill the form to get free counselling.</p>
-                <form>
+
+                <div *ngIf="successMessage" class="success-message">
+                    <div class="success-icon">✓</div>
+                    <p>{{ successMessage }}</p>
+                </div>
+
+                <form (ngSubmit)="submitEnquiry()" #enquiryForm="ngForm" *ngIf="!successMessage">
                     <div class="form-group">
-                        <input type="text" placeholder="Full Name" class="form-control">
+                        <input type="text" name="name" [(ngModel)]="enquiry.name" required #name="ngModel" placeholder="Full Name *" class="form-control" [class.error]="name.invalid && (name.dirty || name.touched || submitted)">
                     </div>
                     <div class="form-group">
-                        <input type="tel" placeholder="Phone Mumber" class="form-control">
+                        <input type="tel" name="phone" [(ngModel)]="enquiry.phone" required pattern="[0-9]{10}" #phone="ngModel" placeholder="10 Digit Phone Number *" class="form-control" [class.error]="phone.invalid && (phone.dirty || phone.touched || submitted)">
                     </div>
                     <div class="form-group">
-                        <input type="email" placeholder="Email Address" class="form-control">
+                        <input type="email" name="email" [(ngModel)]="enquiry.email" #email="ngModel" placeholder="Email Address" class="form-control">
                     </div>
                     <div class="form-group">
-                        <textarea placeholder="Message / Course Interest" class="form-control" rows="3"></textarea>
+                        <textarea name="message" [(ngModel)]="enquiry.message" placeholder="Message / Course Interest" class="form-control" rows="3"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary full-width">Connect with Expert</button>
+                    <button type="submit" class="btn btn-primary full-width" [disabled]="submitting">
+                        <span *ngIf="!submitting">Connect with Expert</span>
+                        <span *ngIf="submitting" class="spinner-small"></span>
+                    </button>
                 </form>
             </div>
         </aside>

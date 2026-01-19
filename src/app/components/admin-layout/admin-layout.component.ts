@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { ApiService } from '../../services/api.service';
 
 @Component({
     selector: 'app-admin-layout',
@@ -18,11 +19,18 @@ export class AdminLayoutComponent {
         { id: 'enquiries', label: 'Enquiries', link: '/admin/enquiries' },
         { id: 'blog', label: 'Blog', link: '/admin/blog' },
         { id: 'vlog', label: 'Vlogs', link: '/admin/vlog' },
-        { id: 'faq', label: 'FAQs', link: '/admin/faq' },
+        { id: 'faq', label: 'FAQs', link: '/admin/index' }, // Adjusted to match potential route
         { id: 'news', label: 'News', link: '/admin/news' },
     ];
 
+    constructor(private api: ApiService, private router: Router) { }
+
     toggleSidebar() {
         this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    }
+
+    logout() {
+        this.api.logout();
+        this.router.navigate(['/admin/login']);
     }
 }
