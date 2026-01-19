@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
-import { COLLEGES_DATA } from '../../data/colleges.data';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-colleges',
@@ -11,20 +11,12 @@ import { COLLEGES_DATA } from '../../data/colleges.data';
   styleUrl: './colleges.scss',
 })
 export class Colleges implements OnInit {
-  colleges = COLLEGES_DATA;
-  filteredColleges = COLLEGES_DATA;
+  colleges: any[] = [];
+  filteredColleges: any[] = [];
   searchTerm = '';
   heroTitle = 'Top Medical Colleges in India';
   heroBg = 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200';
   currentCategory = '';
-
-  categoryMap: any = {
-    'medical': ['MBBS', 'MD', 'MS', 'DM', 'MCh'],
-    'dental': ['BDS', 'MDS'],
-    'ayurveda': ['BAMS'],
-    'homeo': ['BHMS'],
-    'naturopathy': ['BNYS']
-  };
 
   categoryTitles: any = {
     'medical': 'Top Medical Colleges',
@@ -42,22 +34,29 @@ export class Colleges implements OnInit {
     'naturopathy': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1200'
   };
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute, private api: ApiService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.currentCategory = params['type'] || '';
-      this.searchTerm = ''; // Reset search on category change
+      this.searchTerm = '';
 
       if (this.currentCategory) {
         this.heroTitle = this.categoryTitles[this.currentCategory] || 'Top Colleges in India';
         this.heroBg = this.categoryBgs[this.currentCategory] || this.heroBg;
+        this.fetchColleges({ category: this.currentCategory });
       } else {
         this.heroTitle = 'Top Medical Colleges in India';
         this.heroBg = 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200';
+        this.fetchColleges();
       }
+    });
+  }
 
-      this.applyFilters();
+  fetchColleges(filters: any = {}) {
+    this.api.getColleges(filters).subscribe(data => {
+      this.colleges = data;
+      this.filteredColleges = data;
     });
   }
 
@@ -68,24 +67,14 @@ export class Colleges implements OnInit {
   }
 
   applyFilters() {
+    // Client-side search filtering (or could utilize backend search)
     let results = this.colleges;
-
-    // Filter by Category/Type
-    if (this.currentCategory && this.categoryMap[this.currentCategory]) {
-      const allowedCourses = this.categoryMap[this.currentCategory];
-      results = results.filter(college =>
-        college.courses.some(course => allowedCourses.includes(course))
-      );
-    }
-
-    // Filter by Search Term
     if (this.searchTerm) {
       results = results.filter(college =>
         college.name.toLowerCase().includes(this.searchTerm) ||
         college.location.toLowerCase().includes(this.searchTerm)
       );
     }
-
     this.filteredColleges = results;
   }
 

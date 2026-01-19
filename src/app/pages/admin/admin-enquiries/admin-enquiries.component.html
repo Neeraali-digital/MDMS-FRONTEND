@@ -1,0 +1,55 @@
+<div class="admin-page">
+  <div class="page-header">
+    <div class="left">
+      <h1 class="page-title">Enquiries</h1>
+      <p class="page-subtitle">Manage student enquiries and contact requests.</p>
+    </div>
+  </div>
+
+  <div class="table-card card">
+    <div class="table-wrapper">
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th>Student Info</th>
+            <th>Contact</th>
+            <th>Message</th>
+            <th>College</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let eq of enquiries">
+            <td>
+              <div class="student-info">
+                <span class="name">{{ eq.name }}</span>
+                <span class="email">{{ eq.email }}</span>
+              </div>
+            </td>
+            <td>{{ eq.phone }}</td>
+            <td>
+              <div class="message-clip" [title]="eq.message">
+                {{ eq.message }}
+              </div>
+            </td>
+            <td>{{ eq.college_name || 'General' }}</td>
+            <td>{{ eq.created_at | date:'mediumDate' }}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="action-btn view">👁</button>
+                <button class="action-btn delete">🗑</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && enquiries.length === 0">
+            <td colspan="6" class="empty-row">No enquiries found.</td>
+          </tr>
+          <tr *ngIf="loading">
+            <td colspan="6" class="loading-row">Loading enquiries...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

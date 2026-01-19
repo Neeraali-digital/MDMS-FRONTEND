@@ -1,0 +1,206 @@
+:host {
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 80px;
+    --top-bar-height: 70px;
+    --primary-color: #2563eb;
+    --bg-color: #f8fafc;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --white: #ffffff;
+}
+
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+
+    &.collapsed {
+        .sidebar {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .main-wrapper {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+    }
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--white);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    z-index: 100;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    .sidebar-header {
+        height: var(--top-bar-height);
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        gap: 12px;
+        border-bottom: 1px solid var(--border-color);
+
+        .logo {
+            height: 32px;
+            width: auto;
+        }
+
+        .brand-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            letter-spacing: -0.025em;
+            white-space: nowrap;
+        }
+    }
+
+    .sidebar-nav {
+        flex: 1;
+        padding: 24px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            gap: 12px;
+
+            &:hover {
+                background-color: #eff6ff;
+                color: var(--primary-color);
+            }
+
+            &.active {
+                background-color: var(--primary-color);
+                color: var(--white);
+                box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+            }
+
+            .nav-icon {
+                font-size: 1.2rem;
+                width: 24px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .nav-label {
+                font-weight: 500;
+                font-size: 0.95rem;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .sidebar-footer {
+        padding: 16px;
+        border-top: 1px solid var(--border-color);
+
+        .logout-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: none;
+            color: #ef4444;
+            cursor: pointer;
+            gap: 12px;
+
+            &:hover {
+                background-color: #fef2f2;
+            }
+        }
+    }
+}
+
+.main-wrapper {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.top-bar {
+    height: var(--top-bar-height);
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+
+    .toggle-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: var(--bg-color);
+        }
+    }
+
+    .right-section {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+
+        .stat-badge {
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                background-color: var(--primary-color);
+                color: var(--white);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                font-size: 0.9rem;
+            }
+
+            .user-name {
+                font-weight: 600;
+                font-size: 0.95rem;
+            }
+        }
+    }
+}
+
+.content-outlet {
+    padding: 32px;
+    flex: 1;
+}

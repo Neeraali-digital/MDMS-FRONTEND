@@ -1,0 +1,60 @@
+<div class="admin-page">
+  <div class="page-header">
+    <div class="left">
+      <h1 class="page-title">Colleges Management</h1>
+      <p class="page-subtitle">View and manage all listed educational institutions.</p>
+    </div>
+    <div class="right">
+      <a routerLink="/admin/college/new" class="btn btn-primary">+ Add New College</a>
+    </div>
+  </div>
+
+  <div class="table-card card">
+    <div class="table-wrapper">
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th>College Name</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Featured</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let college of colleges">
+            <td>
+              <div class="college-info">
+                <span class="college-name">{{ college.name }}</span>
+                <span class="college-slug">{{ college.slug }}</span>
+              </div>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="college.category">{{ college.category | titlecase }}</span>
+            </td>
+            <td>{{ college.location }}</td>
+            <td>{{ college.type }}</td>
+            <td>
+              <span class="status-indicator" [class.active]="college.featured">
+                {{ college.featured ? 'Yes' : 'No' }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="action-btn edit">✎</button>
+                <button class="action-btn delete" (click)="deleteCollege(college.slug)">🗑</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="!loading && colleges.length === 0">
+            <td colspan="6" class="empty-row">No colleges found.</td>
+          </tr>
+          <tr *ngIf="loading">
+            <td colspan="6" class="loading-row">Loading colleges...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

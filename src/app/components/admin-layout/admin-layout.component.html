@@ -1,0 +1,51 @@
+<div class="admin-container" [class.collapsed]="isSidebarCollapsed">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="assets/logo.png" alt="Logo" class="logo">
+      <span class="brand-name" *ngIf="!isSidebarCollapsed">MDMS ADMIN</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a *ngFor="let item of menuItems" 
+         [routerLink]="item.link" 
+         routerLinkActive="active"
+         class="nav-item">
+        <span class="nav-label" *ngIf="!isSidebarCollapsed">{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn">
+        <span class="nav-label" *ngIf="!isSidebarCollapsed">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-wrapper">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="left-section">
+        <button class="toggle-btn" (click)="toggleSidebar()">
+          <span class="menu-icon">☰</span>
+        </button>
+      </div>
+
+      <div class="right-section">
+        <div class="notifications">
+          <span class="stat-badge">🔔</span>
+        </div>
+        <div class="user-info">
+          <span class="user-avatar">AD</span>
+          <span class="user-name">Administrator</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="content-outlet">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

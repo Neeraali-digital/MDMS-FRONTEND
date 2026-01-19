@@ -1,0 +1,61 @@
+<div class="form-container">
+  <div class="form-header">
+    <div class="left">
+      <h1 class="page-title">Add New College</h1>
+      <p class="page-subtitle">Fill in the details to list a new institution.</p>
+    </div>
+    <div class="right">
+      <button class="btn btn-outline" (click)="router.navigate(['/admin/dashboard'])">Cancel</button>
+      <button class="btn btn-primary" (click)="save()">Save College</button>
+    </div>
+  </div>
+
+  <div class="form-card card">
+    <div class="form-grid">
+      <!-- Basic Info -->
+      <div class="form-group full-width">
+        <label>College Name</label>
+        <input type="text" [(ngModel)]="college.name" (input)="generateSlug()" placeholder="Enter full college name">
+      </div>
+
+      <div class="form-group">
+        <label>Slug (URL)</label>
+        <input type="text" [(ngModel)]="college.slug" placeholder="college-url-slug">
+      </div>
+
+      <div class="form-group">
+        <label>Category</label>
+        <select [(ngModel)]="college.category">
+          <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Ownership Type</label>
+        <select [(ngModel)]="college.type">
+          <option value="Private">Private</option>
+          <option value="Government">Government</option>
+          <option value="Deemed">Deemed</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" [(ngModel)]="college.location" placeholder="City, State">
+      </div>
+
+      <div class="form-group full-width">
+        <label>Description</label>
+        <textarea rows="4" [(ngModel)]="college.description" placeholder="Short description of the college..."></textarea>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="college.featured">
+          <span>Featured College</span>
+        </label>
+        <p class="help-text">Featured colleges appear on the home page and top of lists.</p>
+      </div>
+    </div>
+  </div>
+</div>
