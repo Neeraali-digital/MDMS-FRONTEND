@@ -17,6 +17,7 @@ import { AdminNewsComponent } from './pages/admin/admin-news/admin-news.componen
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 import { AdminCollegeFormComponent } from './pages/admin-college-form/admin-college-form.component';
 import { UserLayoutComponent } from './components/user-layout/user-layout.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     // Admin Routes (Independent of User Layout)
@@ -24,6 +25,7 @@ export const routes: Routes = [
     {
         path: 'admin',
         component: AdminLayoutComponent,
+        canActivate: [authGuard],
         children: [
             { path: 'dashboard', component: AdminDashboardComponent },
             { path: 'colleges', component: AdminCollegesComponent },
