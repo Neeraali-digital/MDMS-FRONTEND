@@ -1,47 +1,52 @@
 <div class="form-container">
   <div class="form-header">
     <div class="left">
-      <h1 class="page-title">Add New College</h1>
-      <p class="page-subtitle">Fill in the details to list a new institution.</p>
+      <h1 class="page-title">{{ isEditMode ? 'Edit College' : 'Add New College' }}</h1>
+      <p class="page-subtitle">{{ isEditMode ? 'Update the details of the institution.' : 'Fill in the details to list a new institution.' }}</p>
     </div>
-    <div class="right">
-      <button class="btn btn-outline" (click)="router.navigate(['/admin/dashboard'])">Cancel</button>
-      <button class="btn btn-primary" (click)="save()">Save College</button>
-    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
   </div>
 
   <div class="form-card card">
     <div class="form-grid">
       <!-- Basic Info -->
       <div class="form-group full-width">
-        <label>College Name</label>
-        <input type="text" [(ngModel)]="college.name" (input)="generateSlug()" placeholder="Enter full college name">
+        <label>College Name <span class="required">*</span></label>
+        <input type="text" [(ngModel)]="college.name" (input)="generateSlug()" placeholder="Enter full college name" [class.error]="submitted && !college.name">
+        <span class="error-text" *ngIf="submitted && !college.name">Name is required</span>
       </div>
 
       <div class="form-group">
-        <label>Slug (URL)</label>
-        <input type="text" [(ngModel)]="college.slug" placeholder="college-url-slug">
+        <label>Slug (URL) <span class="required">*</span></label>
+        <input type="text" [(ngModel)]="college.slug" placeholder="college-url-slug" [class.error]="submitted && !college.slug">
+        <span class="error-text" *ngIf="submitted && !college.slug">Slug is required</span>
       </div>
 
       <div class="form-group">
-        <label>Category</label>
-        <select [(ngModel)]="college.category">
+        <label>Category <span class="required">*</span></label>
+        <select [(ngModel)]="college.category" [class.error]="submitted && !college.category">
           <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
         </select>
+         <span class="error-text" *ngIf="submitted && !college.category">Category is required</span>
       </div>
 
       <div class="form-group">
-        <label>Ownership Type</label>
-        <select [(ngModel)]="college.type">
+        <label>Ownership Type <span class="required">*</span></label>
+        <select [(ngModel)]="college.type" [class.error]="submitted && !college.type">
           <option value="Private">Private</option>
           <option value="Government">Government</option>
           <option value="Deemed">Deemed</option>
         </select>
+        <span class="error-text" *ngIf="submitted && !college.type">Type is required</span>
       </div>
 
       <div class="form-group">
-        <label>Location</label>
-        <input type="text" [(ngModel)]="college.location" placeholder="City, State">
+        <label>Location <span class="required">*</span></label>
+        <input type="text" [(ngModel)]="college.location" placeholder="City, State" [class.error]="submitted && !college.location">
+        <span class="error-text" *ngIf="submitted && !college.location">Location is required</span>
       </div>
 
       <div class="form-group full-width">
@@ -56,6 +61,88 @@
         </label>
         <p class="help-text">Featured colleges appear on the home page and top of lists.</p>
       </div>
+    
+      <div class="form-group full-width">
+        <label>About College</label>
+        <textarea rows="4" [(ngModel)]="college.about" placeholder="Detailed description for the detail page..."></textarea>
+      </div>
+
+      <!-- Image Uploads -->
+      <div class="form-group">
+        <label>College Image</label>
+        <input type="file" (change)="onImageSelected($event)" accept="image/*">
+        <p class="help-text">This will be used for both the card thumbnail and detail page header.</p>
+      </div>
+
+      <!-- Highlights Section -->
+      <div class="form-group full-width">
+        <label>College Highlights</label>
+        <div class="repeater-input">
+            <input type="text" [(ngModel)]="newHighlight" placeholder="Add a highlight (e.g. 'NAAC A+ Accredited')" (keyup.enter)="addHighlight()">
+            <button class="btn btn-outline" (click)="addHighlight()">Add</button>
+        </div>
+        <ul class="item-list">
+            <li *ngFor="let item of college.highlights; let i = index">
+                {{ item }}
+                <span class="remove-btn" (click)="removeHighlight(i)">&times;</span>
+            </li>
+        </ul>
+      </div>
+
+      <!-- Gallery Section -->
+      <div class="form-group full-width">
+        <label>Campus Gallery (Max 4)</label>
+        <input type="file" (change)="onGallerySelected($event)" accept="image/*" multiple>
+        <p class="help-text">Select up to 4 images. These will be displayed in the Gallery tab.</p>
+        <div class="gallery-preview" *ngIf="galleryPreviews.length > 0">
+            <div class="preview-item" *ngFor="let preview of galleryPreviews">
+                <img [src]="preview">
+            </div>
+        </div>
+      </div>
+
+      <!-- Courses Section -->
+      <div class="form-group full-width">
+        <label>Courses Offered</label>
+        <div class="course-adder-grid">
+            <input type="text" [(ngModel)]="newCourse.name" placeholder="Course Name (e.g. MBBS)">
+            <input type="text" [(ngModel)]="newCourse.duration" placeholder="Duration">
+            <input type="text" [(ngModel)]="newCourse.seats" placeholder="Seats">
+            <input type="text" [(ngModel)]="newCourse.fees" placeholder="Fees">
+            <button class="btn btn-primary" (click)="addCourse()">Add Course</button>
+        </div>
+        
+        <table class="data-table" *ngIf="college.courses.length > 0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>Seats</th>
+                    <th>Fees</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let course of college.courses; let i = index">
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.duration }}</td>
+                    <td>{{ course.seats }}</td>
+                    <td>{{ course.fees }}</td>
+                    <td>
+                        <button class="btn-sm btn-danger" (click)="removeCourse(i)">Remove</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+
+  <div class="form-footer">
+      <button class="btn btn-outline" (click)="router.navigate(['/admin/dashboard'])" [disabled]="isLoading">Cancel</button>
+      <button class="btn btn-primary" (click)="save()" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Save College</span>
+        <span *ngIf="isLoading">Saving...</span>
+      </button>
   </div>
 </div>

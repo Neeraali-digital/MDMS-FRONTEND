@@ -46,9 +46,10 @@
 
         <!-- Main Grid -->
         <div class="college-grid">
+            <div *ngIf="loading" class="loading-state">Loading Colleges...</div>
             <div class="college-card" *ngFor="let college of filteredColleges" (click)="viewCollege(college.slug)">
                 <div class="card-image">
-                    <img [src]="college.image" [alt]="college.name" [title]="college.name">
+                    <img [src]="getImageUrl(college.image)" [alt]="college.name" [title]="college.name" (error)="handleImageError($event)">
                     <span class="badge" *ngIf="college.featured">Featured</span>
                 </div>
                 <div class="card-content">

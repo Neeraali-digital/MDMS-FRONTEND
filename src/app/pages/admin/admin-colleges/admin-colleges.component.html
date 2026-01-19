@@ -9,6 +9,14 @@
     </div>
   </div>
 
+  <div class="search-container">
+    <div class="search-box">
+      <i class="icon-search"></i>
+      <input type="text" [(ngModel)]="searchTerm" (input)="applySearch()" placeholder="Search colleges by name, category or location...">
+      <button class="clear-btn" *ngIf="searchTerm" (click)="searchTerm = ''; applySearch()">&times;</button>
+    </div>
+  </div>
+
   <div class="table-card card">
     <div class="table-wrapper">
       <table class="modern-table">
@@ -23,7 +31,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let college of colleges">
+          <tr *ngFor="let college of filteredColleges">
             <td>
               <div class="college-info">
                 <span class="college-name">{{ college.name }}</span>
@@ -42,12 +50,12 @@
             </td>
             <td>
               <div class="action-buttons">
-                <button class="action-btn edit">✎</button>
+                <button class="action-btn edit" (click)="editCollege(college.slug)">✎</button>
                 <button class="action-btn delete" (click)="deleteCollege(college.slug)">🗑</button>
               </div>
             </td>
           </tr>
-          <tr *ngIf="!loading && colleges.length === 0">
+          <tr *ngIf="!loading && filteredColleges.length === 0">
             <td colspan="6" class="empty-row">No colleges found.</td>
           </tr>
           <tr *ngIf="loading">

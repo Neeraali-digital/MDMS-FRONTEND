@@ -33,6 +33,7 @@ export const routes: Routes = [
             { path: 'faq', component: AdminFaqComponent },
             { path: 'news', component: AdminNewsComponent },
             { path: 'college/new', component: AdminCollegeFormComponent },
+            { path: 'college/:slug', component: AdminCollegeFormComponent },
             // Add more child routes here as needed
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]

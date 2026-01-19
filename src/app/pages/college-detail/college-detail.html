@@ -1,6 +1,9 @@
+<div class="loading-container" *ngIf="!college">
+  <div class="spinner"></div>
+</div>
 <div class="page-container" *ngIf="college">
     <!-- Hero Section -->
-    <div class="college-hero" [style.background-image]="'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url(' + (college.heroImage || college.image) + ')'">
+    <div class="college-hero" [style.background-image]="'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url(' + getImageUrl(college.heroImage || college.image) + ')'">
         <div class="container hero-content">
             <h1 class="college-title">{{ college.name }}</h1>
             <p class="location"><i class="icon-map-pin"></i> {{ college.location }}</p>
@@ -101,7 +104,13 @@
              <div class="tab-content" *ngIf="activeTab === 'gallery'">
                 <section class="section-card">
                     <h2>Campus Gallery</h2>
-                    <div class="gallery-grid">
+                    <div class="gallery-grid" *ngIf="college.gallery && college.gallery.length > 0">
+                         <div class="gallery-item" *ngFor="let img of college.gallery">
+                            <img [src]="getImageUrl(img)" alt="Campus">
+                         </div>
+                    </div>
+                    <div class="gallery-grid" *ngIf="!college.gallery || college.gallery.length === 0">
+                        <!-- Fallback placeholders if no gallery -->
                          <div class="gallery-item" *ngFor="let i of [1,2,3,4]">
                             <img [src]="'https://source.unsplash.com/random/300x200?campus,medical,' + i" alt="Campus">
                          </div>

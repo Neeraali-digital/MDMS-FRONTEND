@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
@@ -17,6 +17,7 @@ export class Colleges implements OnInit {
   heroTitle = 'Top Medical Colleges in India';
   heroBg = 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200';
   currentCategory = '';
+  loading = false;
 
   categoryTitles: any = {
     'medical': 'Top Medical Colleges',
@@ -34,7 +35,12 @@ export class Colleges implements OnInit {
     'naturopathy': 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1200'
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, private api: ApiService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private api: ApiService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -54,9 +60,22 @@ export class Colleges implements OnInit {
   }
 
   fetchColleges(filters: any = {}) {
-    this.api.getColleges(filters).subscribe(data => {
-      this.colleges = data;
-      this.filteredColleges = data;
+    this.loading = true;
+    this.colleges = []; // Clear previous
+    this.filteredColleges = [];
+
+    this.api.getColleges(filters).subscribe({
+      next: (data) => {
+        this.colleges = Array.isArray(data) ? data : (data.results || []);
+        this.filteredColleges = this.colleges;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching colleges:', err);
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -80,5 +99,16 @@ export class Colleges implements OnInit {
 
   viewCollege(slug: string) {
     this.router.navigate(['/colleges', slug]);
+  }
+
+  getImageUrl(url: string): string {
+    if (!url) return 'assets/placeholder-college.jpg'; // Fallback
+    if (url.startsWith('http')) return url;
+    // Assuming backend runs on 8000. It's better to use environment config, simple fix for now
+    return `http://127.0.0.1:8000${url}`;
+  }
+
+  handleImageError(event: any) {
+    event.target.src = 'assets/placeholder-college.jpg';
   }
 }
