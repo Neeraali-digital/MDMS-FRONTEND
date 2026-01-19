@@ -18,7 +18,7 @@ import { ApiService } from '../../services/api.service';
                 <p class="hero-desc">Take the first step towards a successful career in {{ title }}. Get expert guidance and find the best colleges.</p>
                 <div class="hero-btns">
                     <button class="btn btn-primary cta-btn" (click)="viewColleges()">Find Colleges</button>
-                    <button class="btn btn-outline-white">Counselling Help</button>
+                    <!-- <button class="btn btn-outline-white border-white border">Counselling Help</button> -->
                 </div>
             </div>
         </div>
