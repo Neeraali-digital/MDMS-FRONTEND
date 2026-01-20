@@ -61,8 +61,19 @@ export class AdminCollegesComponent implements OnInit {
 
     deleteCollege(slug: string) {
         if (confirm('Are you sure you want to delete this college?')) {
-            // API call would go here
-            alert('Delete functionality to be implemented in API');
+            this.loading = true;
+            this.api.deleteCollege(slug).subscribe({
+                next: () => {
+                    alert('College Deleted Successfully');
+                    this.fetchColleges(); // Refresh the list
+                },
+                error: (err) => {
+                    console.error('Error deleting college:', err);
+                    alert('Failed to delete college');
+                    this.loading = false;
+                    this.cdr.detectChanges();
+                }
+            });
         }
     }
 

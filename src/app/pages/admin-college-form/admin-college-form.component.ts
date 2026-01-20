@@ -216,7 +216,7 @@ export class AdminCollegeFormComponent implements OnInit {
 
         // Determine Create vs Update
         const request = this.isEditMode
-            ? this.api.updateCollege(this.college.slug, formData)
+            ? this.api.updateCollege(this.currentSlug, formData)
             : this.api.createCollege(formData);
 
         request.subscribe({

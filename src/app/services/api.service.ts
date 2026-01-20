@@ -85,6 +85,13 @@ export class ApiService {
         return this.http.put(`${this.apiUrl}/colleges/${slug}/`, data, { headers });
     }
 
+    deleteCollege(slug: string): Observable<any> {
+        const headers = new HttpHeaders({
+            'Authorization': `Token ${this.getToken()}`
+        });
+        return this.http.delete(`${this.apiUrl}/colleges/${slug}/`, { headers });
+    }
+
     // Enquiries
     createEnquiry(data: any): Observable<any> {
         return this.http.post(`${this.apiUrl}/enquiries/`, data);
